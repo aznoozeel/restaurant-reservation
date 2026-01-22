@@ -1,0 +1,29 @@
+package zoonza.restaurantreservation.customer.application.service
+
+import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
+import zoonza.restaurantreservation.customer.application.`in`.CustomerManagementPort
+import zoonza.restaurantreservation.customer.application.out.CustomerRepository
+import zoonza.restaurantreservation.customer.application.service.command.FindOrCreateCustomerCommand
+import zoonza.restaurantreservation.customer.domain.Customer
+
+@Service
+class CustomerService(
+    private val customerRepository: CustomerRepository,
+) : CustomerManagementPort {
+    @Transactional
+    override fun findOrCreate(command: FindOrCreateCustomerCommand): Customer {
+        return customerRepository.findByProviderAndProviderId(command.provider, command.providerId)
+            ?: customerRepository.save(Customer.register(
+                command.email,
+                generateNickname(),
+                command.provider,
+                command.providerId
+            ))
+    }
+
+    private fun generateNickname(): String {
+        return generateSequence { RandomNicknameGenerator.generate() }
+            .first { !customerRepository.existsByNickname(it) }
+    }
+}
