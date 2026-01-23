@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler
 import org.springframework.stereotype.Component
 import zoonza.restaurantreservation.auth.application.`in`.TokenManagementPort
+import zoonza.restaurantreservation.customer.application.`in`.CustomerManagementPort
 import java.time.Duration
 
 @Component
@@ -19,6 +20,7 @@ class OAuth2SuccessHandler(
     @Value("\${jwt.refresh-token-expiry}")
     private val refreshTokenExpiry: Long,
 
+    private val customerManagementPort: CustomerManagementPort,
     private val tokenManagementPort: TokenManagementPort
 ) : SimpleUrlAuthenticationSuccessHandler() {
     override fun onAuthenticationSuccess(
@@ -28,6 +30,8 @@ class OAuth2SuccessHandler(
     ) {
         val customOAuth2User = authentication.principal as CustomOAuth2User
         val customer = customOAuth2User.customer
+
+        customerManagementPort.updateLastLoginAt(customer)
 
         val accessToken = tokenManagementPort.generateAccessToken(customer.id, customer.role)
         val refreshToken = tokenManagementPort.generateRefreshToken(customer.id)

@@ -22,6 +22,11 @@ class CustomerService(
             ))
     }
 
+    @Transactional
+    override fun updateLastLoginAt(customer: Customer) {
+        customer.updateLastLoginAt()
+    }
+
     private fun generateNickname(): String {
         return generateSequence { RandomNicknameGenerator.generate() }
             .first { !customerRepository.existsByNickname(it) }

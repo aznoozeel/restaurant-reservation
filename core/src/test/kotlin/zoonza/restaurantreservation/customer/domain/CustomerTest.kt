@@ -2,6 +2,7 @@ package zoonza.restaurantreservation.customer.domain
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import org.junit.jupiter.api.Test
 import zoonza.restaurantreservation.shared.LoginStatus
 import zoonza.restaurantreservation.shared.UserRole
@@ -82,5 +83,21 @@ class CustomerTest {
 
         customer.status = CustomerStatus.WITHDRAWN
         customer.checkLoginAvailability() shouldBe LoginStatus.WITHDRAWN
+    }
+
+    @Test
+    fun `마지막 로그인 시간을 업데이트 한다`() {
+        val customer = Customer.register(
+            email = "test@example.com",
+            nickname = "테스터",
+            provider = SocialProvider.GOOGLE,
+            providerId = "provider-1234"
+        )
+
+        customer.lastLoginAt shouldBe null
+
+        customer.updateLastLoginAt()
+
+        customer.lastLoginAt shouldNotBe null
     }
 }

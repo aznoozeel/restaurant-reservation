@@ -78,4 +78,8 @@ class Customer private constructor(
             else -> LoginStatus.AVAILABLE
         }
     }
+
+    fun updateLastLoginAt() {
+        lastLoginAt = LocalDateTime.now()
+    }
 }
