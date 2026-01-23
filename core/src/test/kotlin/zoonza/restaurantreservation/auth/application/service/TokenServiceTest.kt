@@ -1,5 +1,6 @@
 package zoonza.restaurantreservation.auth.application.service
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.mockk.confirmVerified
 import io.mockk.every
@@ -73,5 +74,33 @@ class TokenServiceTest {
 
         verify(exactly = 1) { tokenProvider.getUserRole("token") }
         confirmVerified(tokenProvider, tokenRepository)
+    }
+
+    @Test
+    fun `블랙리스트에 없으면 예외가 발생하지 않는다`() {
+        every { tokenProvider.getJti("token") } returns "jti-123"
+        every { tokenRepository.existsInBlacklist("jti-123") } returns false
+
+        tokenService.checkBlacklist("token")
+
+        verify(exactly = 1) { tokenProvider.getJti("token") }
+        verify(exactly = 1) { tokenRepository.existsInBlacklist("jti-123") }
+        confirmVerified(tokenRepository, tokenProvider)
+    }
+
+    @Test
+    fun `블랙리스트에 있으면 예외가 발생한다`() {
+        every { tokenProvider.getJti("token") } returns "jti-123"
+        every { tokenRepository.existsInBlacklist("jti-123") } returns true
+
+        val exception = shouldThrow<BlacklistedException> {
+            tokenService.checkBlacklist("token")
+        }
+
+        exception.message shouldBe "블랙리스트에 등록된 토큰입니다."
+
+        verify(exactly = 1) { tokenProvider.getJti("token") }
+        verify(exactly = 1) { tokenRepository.existsInBlacklist("jti-123") }
+        confirmVerified(tokenRepository, tokenProvider)
     }
 }
