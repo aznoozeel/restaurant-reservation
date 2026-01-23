@@ -6,4 +6,6 @@ interface TokenRepository {
     fun addBlacklist(jti: String, remainingTime: Long)
 
     fun existsInBlacklist(jti: String): Boolean
+
+    fun deleteRefreshTokenByUserId(userId: Long)
 }

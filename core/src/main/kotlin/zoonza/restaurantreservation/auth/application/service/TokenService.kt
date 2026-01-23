@@ -31,4 +31,26 @@ class TokenService(
     override fun extractUserRole(token: String): String {
         return tokenProvider.getUserRole(token)
     }
+
+    override fun deleteRefreshToken(token: String) {
+        val userId = tokenProvider.getUserId(token)
+
+        tokenRepository.deleteRefreshTokenByUserId(userId)
+    }
+
+    override fun checkBlacklist(token: String) {
+        val jti = tokenProvider.getJti(token)
+
+        if (tokenRepository.existsInBlacklist(jti)) {
+            throw BlacklistedException()
+        }
+    }
+
+    override fun addBlacklist(token: String) {
+        val remainingTime = tokenProvider.getRemainingTime(token)
+
+        if (remainingTime <= 0L) return
+
+        tokenRepository.addBlacklist(tokenProvider.getJti(token), remainingTime)
+    }
 }

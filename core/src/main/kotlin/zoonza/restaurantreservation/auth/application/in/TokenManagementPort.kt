@@ -47,4 +47,26 @@ interface TokenManagementPort {
      * @return userRole
      */
     fun extractUserRole(token: String): String
+
+    /**
+     * 저장된 리프레시 토큰을 삭제한다.
+     *
+     * @param token Access 토큰
+     */
+    fun deleteRefreshToken(token: String)
+
+    /**
+     * 블랙리스트에 등록된 토큰인지 확인한다.
+     *
+     * @param token Access 토큰
+     * @throws BlacklistedException
+     */
+    fun checkBlacklist(token: String)
+
+    /**
+     * 액세스 토큰을 블랙리스트에 등록 한다.
+     *
+     * @param token Access 토큰
+     */
+    fun addBlacklist(token: String)
 }
