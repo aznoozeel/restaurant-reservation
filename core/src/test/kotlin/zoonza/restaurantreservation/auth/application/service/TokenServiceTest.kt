@@ -103,4 +103,41 @@ class TokenServiceTest {
         verify(exactly = 1) { tokenRepository.existsInBlacklist("jti-123") }
         confirmVerified(tokenRepository, tokenProvider)
     }
+
+    @Test
+    fun `블랙리스트에 추가한다`() {
+        val token = "access-token"
+        val remainingTime = 1_000L
+        val jti = "jti-123"
+
+        every { tokenProvider.getRemainingTime(token) } returns remainingTime
+        every { tokenProvider.getJti(token) } returns jti
+        every { tokenRepository.addBlacklist(jti, remainingTime) } returns Unit
+
+        tokenService.addBlacklist(token)
+
+        verify(exactly = 1) {
+            tokenProvider.getRemainingTime(token)
+            tokenProvider.getJti(token)
+            tokenRepository.addBlacklist(jti, remainingTime)
+        }
+        confirmVerified(tokenProvider, tokenRepository)
+    }
+
+    @Test
+    fun `리프레시 토큰을 삭제한다`() {
+        val token = "access-token"
+        val userId = 1L
+
+        every { tokenProvider.getUserId(token) } returns userId
+        every { tokenRepository.deleteRefreshTokenByUserId(userId) } returns Unit
+
+        tokenService.deleteRefreshToken(token)
+
+        verify(exactly = 1) {
+            tokenProvider.getUserId(token)
+            tokenRepository.deleteRefreshTokenByUserId(userId)
+        }
+        confirmVerified(tokenProvider, tokenRepository)
+    }
 }
