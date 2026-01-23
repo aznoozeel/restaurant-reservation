@@ -1,4 +1,4 @@
-package zoonza.restaurantreservation.`in`.controller
+package zoonza.restaurantreservation.adapter.`in`.controller
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import java.time.LocalDateTime

@@ -1,4 +1,4 @@
-package zoonza.restaurantreservation.out.persistence.customer
+package zoonza.restaurantreservation.adapter.out.persistence.customer
 
 import org.springframework.data.jpa.repository.JpaRepository
 import zoonza.restaurantreservation.customer.domain.Customer

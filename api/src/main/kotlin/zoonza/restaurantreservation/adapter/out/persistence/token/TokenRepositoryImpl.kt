@@ -1,4 +1,4 @@
-package zoonza.restaurantreservation.out.persistence.token
+package zoonza.restaurantreservation.adapter.out.persistence.token
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.redis.core.StringRedisTemplate
@@ -38,6 +38,10 @@ class TokenRepositoryImpl(
 
     override fun existsInBlacklist(jti: String): Boolean {
         return stringRedisTemplate.hasKey(getBlacklistKey(jti))
+    }
+
+    override fun deleteRefreshTokenByUserId(userId: Long) {
+        stringRedisTemplate.delete(getRefreshTokenKey(userId))
     }
 
     private fun getRefreshTokenKey(userId: Long): String =

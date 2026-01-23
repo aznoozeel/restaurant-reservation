@@ -1,4 +1,4 @@
-package zoonza.restaurantreservation.`in`.security.config
+package zoonza.restaurantreservation.adapter.`in`.security.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -7,11 +7,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import zoonza.restaurantreservation.`in`.security.jwt.JwtAuthenticationFilter
-import zoonza.restaurantreservation.`in`.security.jwt.JwtExceptionFilter
-import zoonza.restaurantreservation.`in`.security.oauth2.CustomOAuth2UserService
-import zoonza.restaurantreservation.`in`.security.oauth2.OAuth2FailureHandler
-import zoonza.restaurantreservation.`in`.security.oauth2.OAuth2SuccessHandler
+import zoonza.restaurantreservation.adapter.`in`.security.jwt.JwtAuthenticationFilter
+import zoonza.restaurantreservation.adapter.`in`.security.jwt.JwtExceptionFilter
+import zoonza.restaurantreservation.adapter.`in`.security.oauth2.CustomOAuth2UserService
+import zoonza.restaurantreservation.adapter.`in`.security.oauth2.OAuth2FailureHandler
+import zoonza.restaurantreservation.adapter.`in`.security.oauth2.OAuth2SuccessHandler
 
 @Configuration
 @EnableWebSecurity

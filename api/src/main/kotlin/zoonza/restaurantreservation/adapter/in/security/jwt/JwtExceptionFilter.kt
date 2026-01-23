@@ -1,4 +1,4 @@
-package zoonza.restaurantreservation.`in`.security.jwt
+package zoonza.restaurantreservation.adapter.`in`.security.jwt
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.jsonwebtoken.JwtException

@@ -1,4 +1,4 @@
-package zoonza.restaurantreservation.`in`.security.oauth2
+package zoonza.restaurantreservation.adapter.`in`.security.oauth2
 
 class GoogleOAuth2UserInfo(
     private val attributes: Map<String, Any>

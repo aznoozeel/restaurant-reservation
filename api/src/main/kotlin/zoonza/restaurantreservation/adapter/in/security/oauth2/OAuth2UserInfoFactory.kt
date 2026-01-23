@@ -1,4 +1,4 @@
-package zoonza.restaurantreservation.`in`.security.oauth2
+package zoonza.restaurantreservation.adapter.`in`.security.oauth2
 
 import zoonza.restaurantreservation.customer.domain.SocialProvider
 

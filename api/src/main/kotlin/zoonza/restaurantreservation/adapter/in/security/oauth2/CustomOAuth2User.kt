@@ -1,4 +1,4 @@
-package zoonza.restaurantreservation.`in`.security.oauth2
+package zoonza.restaurantreservation.adapter.`in`.security.oauth2
 
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
