@@ -17,4 +17,11 @@ interface CustomerManagementPort {
      * @return Customer
      */
     fun findOrCreate(command: FindOrCreateCustomerCommand): Customer
+
+    /**
+     * 고객의 마지막 로그인 시간을 갱신힌다.
+     *
+     * @param customer 고객
+     */
+    fun updateLastLoginAt(customer: Customer)
 }

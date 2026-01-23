@@ -11,6 +11,7 @@ import zoonza.restaurantreservation.customer.domain.Customer
 import zoonza.restaurantreservation.customer.domain.CustomerStatus
 import zoonza.restaurantreservation.customer.domain.SocialProvider
 import zoonza.restaurantreservation.shared.UserRole
+import java.time.LocalDateTime
 
 class CustomerServiceTest {
     private val customerRepository = mockk<CustomerRepository>()
@@ -84,5 +85,26 @@ class CustomerServiceTest {
         verify(exactly = 1) { customerRepository.existsByNickname("신규닉네임") }
         verify(exactly = 1) { customerRepository.save(any()) }
         confirmVerified(customerRepository, RandomNicknameGenerator)
+    }
+
+    @Test
+    fun `마지막 로그인 시간이 현재 시각으로 갱신된다`() {
+        val customer = Customer.register(
+            email = "test@example.com",
+            nickname = "로그인고객",
+            provider = SocialProvider.GOOGLE,
+            providerId = "provider-5678"
+        )
+
+        val beforeUpdate = LocalDateTime.now()
+
+        customerService.updateLastLoginAt(customer)
+
+        val afterUpdate = LocalDateTime.now()
+        val updatedLastLoginAt = customer.lastLoginAt
+
+        updatedLastLoginAt shouldNotBe null
+        updatedLastLoginAt!!.isBefore(beforeUpdate) shouldBe false
+        updatedLastLoginAt.isAfter(afterUpdate) shouldBe false
     }
 }
