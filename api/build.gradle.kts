@@ -21,6 +21,7 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter:1.21.3")
     testImplementation("org.testcontainers:postgresql:1.21.3")
     testImplementation("com.redis:testcontainers-redis:2.2.4")
+    testImplementation("com.tngtech.archunit:archunit-junit5:1.4.1")
 
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
