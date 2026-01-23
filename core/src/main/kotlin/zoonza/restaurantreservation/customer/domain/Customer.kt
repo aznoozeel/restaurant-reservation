@@ -19,18 +19,18 @@ class Customer private constructor(
     var nickname: String,
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false)
     val provider: SocialProvider,
 
     @Column(nullable = false, length = 255)
     val providerId: String,
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false)
     var status: CustomerStatus,
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false)
     val role: UserRole,
 
     @Column(nullable = false)

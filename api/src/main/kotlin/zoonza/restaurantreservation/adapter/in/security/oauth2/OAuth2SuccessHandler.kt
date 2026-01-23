@@ -39,7 +39,7 @@ class OAuth2SuccessHandler(
         setCookie(response,"accessToken", accessToken, accessTokenExpiry, "Lax")
         setCookie(response,"refreshToken", refreshToken, refreshTokenExpiry, "Strict")
 
-        response.sendRedirect("http://localhost:3000/home")
+        response.sendRedirect("http://localhost:5173/home")
     }
 
     private fun setCookie(

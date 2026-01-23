@@ -7,7 +7,7 @@ import zoonza.restaurantreservation.customer.domain.Customer
 
 class CustomOAuth2User(
     val customer: Customer,
-    val attributes: Map<String, Any>
+    private val attributes: Map<String, Any>
 ) : OAuth2User {
     override fun getAttributes(): Map<String, Any> {
         return attributes
