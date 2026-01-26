@@ -1,5 +1,6 @@
 package zoonza.restaurantreservation.customer.application.service
 
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.mockk.*
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.Test
 import zoonza.restaurantreservation.customer.application.out.CustomerRepository
 import zoonza.restaurantreservation.customer.application.service.command.FindOrCreateCustomerCommand
 import zoonza.restaurantreservation.customer.domain.Customer
+import zoonza.restaurantreservation.customer.domain.CustomerNotFoundException
 import zoonza.restaurantreservation.customer.domain.CustomerStatus
 import zoonza.restaurantreservation.customer.domain.SocialProvider
 import zoonza.restaurantreservation.shared.UserRole
@@ -106,5 +108,43 @@ class CustomerServiceTest {
         updatedLastLoginAt shouldNotBe null
         updatedLastLoginAt!!.isBefore(beforeUpdate) shouldBe false
         updatedLastLoginAt.isAfter(afterUpdate) shouldBe false
+    }
+
+    @Test
+    fun `userId로 고객 정보를 조회한다`() {
+        val userId = 1L
+        val customer = Customer.register(
+            email = "test@example.com",
+            nickname = "고객",
+            provider = SocialProvider.GOOGLE,
+            providerId = "provider-1234"
+        )
+
+        every { customerRepository.findById(userId) } returns customer
+
+        val foundCustomer = customerService.find(userId)
+
+        foundCustomer shouldBe customer
+
+        verify(exactly = 1) { customerRepository.findById(userId) }
+
+        confirmVerified(customerRepository)
+    }
+
+    @Test
+    fun `고객 정보 조회 시 존재하지 않는 고객이라면 CustomerNotFoundException을 던진다`() {
+        val userId = 999L
+
+        every { customerRepository.findById(userId) } returns null
+
+        val exception = shouldThrow<CustomerNotFoundException> {
+            customerService.find(userId)
+        }
+
+        exception.message shouldBe "고객 정보를 찾을 수 없습니다."
+
+        verify(exactly = 1) { customerRepository.findById(userId) }
+
+        confirmVerified(customerRepository)
     }
 }

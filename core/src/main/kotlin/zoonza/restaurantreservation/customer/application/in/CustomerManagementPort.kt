@@ -19,6 +19,15 @@ interface CustomerManagementPort {
     fun findOrCreate(command: FindOrCreateCustomerCommand): Customer
 
     /**
+     * 고객 정보를 조회한다.
+     *
+     * @param userId 고객 ID(PK)
+     * @return Customer
+     * @throws CustomerNotFoundException
+     */
+    fun find(userId: Long): Customer
+
+    /**
      * 고객의 마지막 로그인 시간을 갱신힌다.
      *
      * @param customer 고객

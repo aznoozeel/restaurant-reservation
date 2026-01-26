@@ -6,6 +6,8 @@ import zoonza.restaurantreservation.customer.domain.SocialProvider
 interface CustomerRepository {
     fun findByProviderAndProviderId(provider: SocialProvider, providerId: String): Customer?
 
+    fun findById(id: Long): Customer?
+
     fun existsByNickname(nickname: String): Boolean
 
     fun save(customer: Customer): Customer
