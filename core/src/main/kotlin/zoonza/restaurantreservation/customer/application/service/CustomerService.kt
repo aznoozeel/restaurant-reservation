@@ -31,6 +31,7 @@ class CustomerService(
     @Transactional
     override fun updateLastLoginAt(customer: Customer) {
         customer.updateLastLoginAt()
+        customerRepository.save(customer)
     }
 
     private fun generateNickname(): String {
