@@ -15,6 +15,10 @@ import zoonza.restaurantreservation.auth.application.`in`.TokenManagementPort
 class JwtAuthenticationFilter(
     private val tokenManagementPort: TokenManagementPort
 ) : OncePerRequestFilter() {
+    override fun shouldNotFilter(request: HttpServletRequest): Boolean {
+        return request.requestURI.startsWith("/api/auth/refresh")
+    }
+
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
