@@ -6,6 +6,7 @@ import zoonza.restaurantreservation.customer.application.`in`.CustomerManagement
 import zoonza.restaurantreservation.customer.application.out.CustomerRepository
 import zoonza.restaurantreservation.customer.application.service.command.FindOrCreateCustomerCommand
 import zoonza.restaurantreservation.customer.domain.Customer
+import zoonza.restaurantreservation.customer.domain.CustomerNotFoundException
 
 @Service
 class CustomerService(
@@ -20,6 +21,11 @@ class CustomerService(
                 command.provider,
                 command.providerId
             ))
+    }
+
+    override fun find(userId: Long): Customer {
+        return customerRepository.findById(userId)
+            ?: throw CustomerNotFoundException()
     }
 
     @Transactional

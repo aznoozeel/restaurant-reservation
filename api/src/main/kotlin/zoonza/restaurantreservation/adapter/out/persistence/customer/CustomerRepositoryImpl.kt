@@ -1,5 +1,6 @@
 package zoonza.restaurantreservation.adapter.out.persistence.customer
 
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Repository
 import zoonza.restaurantreservation.customer.application.out.CustomerRepository
 import zoonza.restaurantreservation.customer.domain.Customer
@@ -11,6 +12,10 @@ class CustomerRepositoryImpl(
 ) : CustomerRepository {
     override fun findByProviderAndProviderId(provider: SocialProvider, providerId: String): Customer? {
         return customerJpaRepository.findByProviderAndProviderId(provider, providerId)
+    }
+
+    override fun findById(id: Long): Customer? {
+        return customerJpaRepository.findByIdOrNull(id)
     }
 
     override fun existsByNickname(nickname: String): Boolean {
