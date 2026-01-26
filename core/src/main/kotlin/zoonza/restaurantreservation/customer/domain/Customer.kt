@@ -37,9 +37,6 @@ class Customer private constructor(
     val registeredAt: LocalDateTime,
 
     @Column
-    var activatedAt: LocalDateTime? = null,
-
-    @Column
     var lastLoginAt: LocalDateTime? = null,
 
     @Column
